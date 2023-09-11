@@ -1,0 +1,1 @@
+type ThreeSystem<T> = (manager:T,deltaTime:number)=>void
