@@ -4275,7 +4275,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
+"@types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.198":
   version: 4.14.198
   resolution: "@types/lodash@npm:4.14.198"
   checksum: b290e4480707151bcec738bca40527915defe52a0d8e26c83685c674163a265e1a88cb2ee56b0fb587a89819d0cd5df86ada836aec3e9c2e4bf516e7d348d524
@@ -5154,6 +5154,15 @@ __metadata:
   version: 1.0.1
   resolution: "async-limiter@npm:1.0.1"
   checksum: 2b849695b465d93ad44c116220dee29a5aeb63adac16c1088983c339b0de57d76e82533e8e364a93a9f997f28bbfc6a92948cefc120652bd07f3b59f8d75cf2b
+  languageName: node
+  linkType: hard
+
+"async-mutex@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "async-mutex@npm:0.4.0"
+  dependencies:
+    tslib: ^2.4.0
+  checksum: 813a71728b35a4fbfd64dba719f04726d9133c67b577fcd951b7028c4a675a13ee34e69beb82d621f87bf81f5d4f135c4c44be0448550c7db728547244ef71fc
   languageName: node
   linkType: hard
 
@@ -8773,6 +8782,7 @@ __metadata:
     "@storybook/react": 7.4.0
     "@storybook/react-vite": 7.4.0
     "@storybook/testing-library": 0.2.0
+    "@types/lodash": ^4.14.198
     "@types/node": ^20.6.0
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
@@ -8783,12 +8793,14 @@ __metadata:
     "@typescript-eslint/parser": ^6.0.0
     "@vitejs/plugin-basic-ssl": ^1.0.1
     "@vitejs/plugin-react": ^4.0.3
+    async-mutex: ^0.4.0
     eslint: ^8.45.0
     eslint-plugin-react: ^7.33.2
     eslint-plugin-react-hooks: ^4.6.0
     eslint-plugin-react-refresh: ^0.4.3
     eslint-plugin-storybook: ^0.6.13
     eventemitter2: ^6.4.9
+    lodash: ^4.17.21
     react: ^18.2.0
     react-dom: ^18.2.0
     react-redux: ^8.1.2

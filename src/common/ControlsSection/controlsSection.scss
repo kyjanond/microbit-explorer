@@ -1,0 +1,27 @@
+.controls-section {
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  &__button {
+    &.MuiButtonBase-root {
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      padding: 8px;
+      min-width: 0px;
+    }
+    &--expanded{
+      transform: rotate(90deg);
+    }
+  }
+  > .MuiCollapse-root {
+    padding-left: 8px;
+    > .MuiCollapse-wrapper {
+      padding-bottom: 8px;
+    }
+  }
+}

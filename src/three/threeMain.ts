@@ -1,16 +1,20 @@
 import { renderSystem } from './systems/renderSystem'
-import { type SceneManager, sceneFactory } from './sceneFactory'
+import sceneManagerFactory, { loadAssets, type SceneManager} from './sceneFactory'
 import { controlsSystem } from './systems/controlsSystem'
+import { sensorSystem } from './systems/sensorSystem'
+import { helperSystem } from './systems/helperSystem'
 
 export const threeInit = async (containerElement: HTMLElement, window: Window) => {
   // create scene
-  const sceneManager = await sceneFactory(containerElement)
+  const sceneManager:SceneManager = sceneManagerFactory(containerElement)
   // register resized callback
   window.addEventListener( 'scene-dom-resized', ()=>onDOMResize(sceneManager), false )
   // append renderer
   containerElement.appendChild(
     sceneManager.renderer.domElement
   )
+  // lad assets
+  loadAssets(sceneManager)
   // start clock and loop
   sceneManager.clock.start()
   gameLoop(sceneManager)
@@ -23,6 +27,8 @@ const gameLoop = (sceneManager:SceneManager) => {
   sceneManager.stats.begin()
 
   controlsSystem(sceneManager,deltaTime)
+  sensorSystem(sceneManager,deltaTime)
+  helperSystem(sceneManager,deltaTime)
   renderSystem(sceneManager,deltaTime)
 
   sceneManager.stats.end()

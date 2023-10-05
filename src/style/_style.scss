@@ -1,5 +1,8 @@
+@use './_variables' as v;
+
 .app {
   &__scene {
+    z-index: -1;
     position:absolute;
     left: 0px;
     top: 0px;

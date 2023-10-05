@@ -8,7 +8,6 @@ export const renderSystem:ThreeSystem<SceneManager> = (sceneManager,_deltaTime)=
   {
     window.dispatchEvent(new Event('scene-dom-resized'))
   }
-
   //render
   sceneManager.renderer.render(sceneManager.scene,sceneManager.camera)
 }

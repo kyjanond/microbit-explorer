@@ -1,0 +1,15 @@
+.led-text-input {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  > .MuiFormControl-root {
+    > .MuiInputLabel-root {
+      top: -5px;
+    }
+    > .MuiInputBase-root {
+      height: 30.75px;
+    }
+  }
+}

@@ -3,6 +3,7 @@
 //@ts-ignore: : needs React
 import React, { useEffect } from 'react'
 import { threeInit } from '../three/threeMain'
+import MicrobitBle from '../features/MicrobitBle/MicrobitBle'
 
 function App() {
   useEffect(()=>{
@@ -13,6 +14,7 @@ function App() {
   },[])
   return (
     <>
+      <MicrobitBle/>
       <div id="scene" className={'app__scene'}/>
     </>
   )
