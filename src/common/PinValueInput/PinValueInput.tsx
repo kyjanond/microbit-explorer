@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Stack, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
+import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import './pinValueInput.scss'
 import { useState } from 'react'
 import { VolumeUp } from '@mui/icons-material'
@@ -94,35 +94,40 @@ const PinValuesInput = (props:IPinValuesInput)=>{
     }
     setPinValue(value)
   }
+  const hasPins = Object.keys(props.pinConfig).length>0
   return(
     <div className={`${props.className?props.className:''} pin-value-input`}>
-      <div className='pin-value-input-selection'>
-        <FormControl size="small">
-          <InputLabel id="pin-select-label">Pin</InputLabel>
-          <Select
-            labelId="pin-select-label"
-            id="pin-select"
-            value={activePin}
-            label="Pin"
-            onChange={handlePinChange}
-          >
-            {Object.keys(props.pinConfig).filter(k=>!props.pinConfig[k].isInput).map(k=><MenuItem key={k} value={k}>PIN{k}</MenuItem>)}
-          </Select>
-        </FormControl>
-        {
-          (activePin)?
-            props.pinConfig[activePin].isAnalog?
-              <AnalogInput value={pinValue} onChange={handlePinValueChange}/>:
-              <DigitalInput value={pinValue} onChange={handlePinValueChange}/>
-            :''
-        }
-      </div>
+      {
+        // show only if some output pins are configured
+        hasPins?<div className='pin-value-input-selection'>
+          <FormControl size="small">
+            <InputLabel id="pin-select-label">Pin</InputLabel>
+            <Select
+              labelId="pin-select-label"
+              id="pin-select"
+              value={activePin}
+              label="Pin"
+              onChange={handlePinChange}
+            >
+              {Object.keys(props.pinConfig).filter(k=>!props.pinConfig[k].isInput).map(k=><MenuItem key={k} value={k}>PIN{k}</MenuItem>)}
+            </Select>
+          </FormControl>
+          {
+            // show only if a non-empty active pin is selected. change function based on pin type
+            (activePin)?
+              props.pinConfig[activePin].isAnalog?
+                <AnalogInput value={pinValue} onChange={handlePinValueChange}/>:
+                <DigitalInput value={pinValue} onChange={handlePinValueChange}/>
+              :null
+          }
+        </div>:<Typography>No output pins configured</Typography>
+      }
       <div className='pin-value-input-btn-wrapper'>
         <Button 
           size="small" 
           variant='outlined' 
           disableElevation 
-          disabled={!props.isConnected}
+          disabled={!props.isConnected || !hasPins}
           onClick={handleSendClicked}
         >Send</Button>
       </div>

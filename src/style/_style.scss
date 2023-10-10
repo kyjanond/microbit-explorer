@@ -1,5 +1,9 @@
 @use './_variables' as v;
 
+body {
+  overflow: hidden;
+}
+
 .app {
   &__scene {
     z-index: -1;

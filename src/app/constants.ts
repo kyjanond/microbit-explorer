@@ -12,7 +12,7 @@ export const TEXTURE_ASSETS = {
 
 export const MICROBIT_MODEL_NAME = 'Tinkercad_GLTF_Scene'
 
-export const AXES_HELPER_NAME = 'axesHelper'
+export const AXIS_HELPER_NAME = 'axesHelper'
 export const GRID_HELPER_NAME = 'gridHelper'
 export const ACC_HELPER_NAME = 'accHelper'
 export const MAG_HELPER_NAME = 'magHelper'

@@ -54,3 +54,26 @@ export const dataViewToUint8Array = (value:DataView)=>{
   }
   return byteArr
 }
+
+export interface Vec3 {
+  x:number,
+  y:number,
+  z:number
+}
+
+export const floatingAvgVector = (newData:Vec3, dataArray:Vec3[], arrayMaxLength:number)=>{
+  dataArray.push({...newData})
+  if (dataArray.length>arrayMaxLength) {
+    dataArray.splice(0,1)
+  }
+  const avgVec = dataArray.reduce((prev,curr)=>{
+    prev.x+=curr.x
+    prev.y+=curr.y
+    prev.z+=curr.z
+    return prev
+  })
+  avgVec.x /= dataArray.length
+  avgVec.y /= dataArray.length
+  avgVec.z /= dataArray.length
+  return avgVec
+}

@@ -17,9 +17,9 @@ const _initialState = {
     z:-1
   } as ISimpleVector3,
   magnetometer: {
-    x:1,
+    x:0,
     y:0,
-    z:0
+    z:-1
   } as ISimpleVector3,
   temperature: 0,
   btnState: {

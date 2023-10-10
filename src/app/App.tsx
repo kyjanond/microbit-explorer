@@ -4,6 +4,8 @@
 import React, { useEffect } from 'react'
 import { threeInit } from '../three/threeMain'
 import MicrobitBle from '../features/MicrobitBle/MicrobitBle'
+import Footer from '../common/Footer/Footer'
+import About from '../common/About/About'
 
 function App() {
   useEffect(()=>{
@@ -16,6 +18,8 @@ function App() {
     <>
       <MicrobitBle/>
       <div id="scene" className={'app__scene'}/>
+      <Footer visible={true}/>
+      <About/>
     </>
   )
 }

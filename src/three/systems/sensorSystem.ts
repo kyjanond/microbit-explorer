@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import store from '../../app/store'
-import { observeStore } from '../../app/utilities'
+import { floatingAvgVector, observeStore } from '../../app/utilities'
 import { SceneManager } from '../sceneFactory'
 import { MICROBIT_MODEL_NAME } from '../../app/constants'
 import { ISimpleVector3 } from '../../features/SensorDataView/sensorDataSlice'
@@ -8,25 +8,8 @@ import { ISimpleVector3 } from '../../features/SensorDataView/sensorDataSlice'
 const accDataArray = [] as ISimpleVector3[]
 const magDataArray = [] as ISimpleVector3[]
 
-const updateDataArray = (newData:ISimpleVector3, dataArray:ISimpleVector3[], arrayMaxLength:number)=>{
-  dataArray.push({...newData})
-  if (dataArray.length>arrayMaxLength) {
-    dataArray.splice(0,1)
-  }
-  const avgVec = dataArray.reduce((prev,curr)=>{
-    prev.x+=curr.x
-    prev.y+=curr.y
-    prev.z+=curr.z
-    return prev
-  })
-  avgVec.x /= dataArray.length
-  avgVec.y /= dataArray.length
-  avgVec.z /= dataArray.length
-  return avgVec
-}
-
 const updateAccVectorAngleOri = (model:THREE.Object3D)=>{
-  const avgAccData = updateDataArray(accData,accDataArray,15)
+  const avgAccData = floatingAvgVector(accData,accDataArray,15)
   const accVecLocal = new THREE.Vector3(avgAccData.x,avgAccData.y,avgAccData.z)
   //accVecLocal.normalize()
   const microbitZAxis = new THREE.Vector3(0,0,1)
@@ -38,8 +21,8 @@ const updateAccVectorAngleOri = (model:THREE.Object3D)=>{
 }
 
 const updateAccMagOri = (model:THREE.Object3D)=>{
-  const avgAccData = updateDataArray(accData,accDataArray,15)
-  const avgMagData = updateDataArray(magData,magDataArray,50)
+  const avgAccData = floatingAvgVector(accData,accDataArray,15)
+  const avgMagData = floatingAvgVector(magData,magDataArray,50)
   const accVecLocal = new THREE.Vector3(avgAccData.x,avgAccData.y,avgAccData.z)
   const magVecLocal = new THREE.Vector3(avgMagData.x,avgMagData.y,avgMagData.z)
 

@@ -4,15 +4,18 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { glbAssetLoaderSingleton } from './loaders/geometryLoader'
-import { ACC_HELPER_NAME, AXES_HELPER_NAME, GEOMETRY_ASSETS, GRID_HELPER_NAME, MAG_HELPER_NAME, TEXTURE_ASSETS } from '../app/constants'
+import { ACC_HELPER_NAME, AXIS_HELPER_NAME, GEOMETRY_ASSETS, GRID_HELPER_NAME, MAG_HELPER_NAME, TEXTURE_ASSETS } from '../app/constants'
 
 THREE.Object3D.DEFAULT_UP = new THREE.Vector3(0,0,1)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createHelpers = (scene:THREE.Scene) => {
-  const axesHelper = new THREE.AxesHelper( 0.001 )
-  axesHelper.name = AXES_HELPER_NAME
-  scene.add( axesHelper )
+  const magColor = 0xff0000
+  const accColor = 0x0000ff
+  const defaultOrigin = new THREE.Vector3(0,0,50)
+  const axisHelper = new THREE.AxesHelper( 0.001 )
+  axisHelper.name = AXIS_HELPER_NAME
+  scene.add( axisHelper )
 
   const gridHelper = new THREE.GridHelper( 
     100, 
@@ -31,24 +34,44 @@ const createHelpers = (scene:THREE.Scene) => {
   const accHelper = new THREE.Line( 
     accHelperGeometry, 
     new THREE.LineBasicMaterial({
-      color: 0x0000ff
+      color: accColor
     })
   )
   accHelper.name = ACC_HELPER_NAME
   scene.add( accHelper )
+  const accHelperEndGeometry = new THREE.SphereGeometry(1)
+  const accHelperEndMat = new THREE.MeshBasicMaterial({
+    color: accColor
+  })
+  const accHelperEnd = new THREE.Mesh(accHelperEndGeometry,accHelperEndMat)
+  accHelperEnd.name = ACC_HELPER_NAME + '_END'
+  scene.add( accHelperEnd )
 
   const magHelperGeometry = new THREE.BufferGeometry().setFromPoints([
     new THREE.Vector3(),
     new THREE.Vector3(0,0,50)
   ])
-  const magHelper = new THREE.Line( 
+  const magHelperVector = new THREE.Line( 
     magHelperGeometry, 
     new THREE.LineBasicMaterial({
-      color: 0xff0000
+      color: magColor
     })
   )
-  magHelper.name = MAG_HELPER_NAME
-  scene.add( magHelper )
+  magHelperVector.name = MAG_HELPER_NAME
+  scene.add( magHelperVector )
+  const magHelperEndGeometry = new THREE.SphereGeometry(1)
+  const magHelperEndMat = new THREE.MeshBasicMaterial({
+    color: magColor
+  })
+  const magHelperEnd = new THREE.Mesh(magHelperEndGeometry,magHelperEndMat)
+  // const magHelperEnd = new THREE.ArrowHelper( 
+  //   magHelperVector., 
+  //   new THREE.Vector3(0,0,50), 
+  //   length, 
+  //   magColor 
+  // )
+  magHelperEnd.name = MAG_HELPER_NAME + '_END'
+  scene.add( magHelperEnd )
 }
 
 export const loadAssets = async (sceneManager:SceneManager)=>{

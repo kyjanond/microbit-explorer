@@ -1,7 +1,7 @@
 {
   "name": "microbit-ble-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -54,6 +54,7 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.13",
     "sass": "^1.66.1",
+    "shelljs": "^0.8.5",
     "storybook": "7.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
