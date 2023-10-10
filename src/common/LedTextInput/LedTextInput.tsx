@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Button, TextField } from '@mui/material'
 import './ledTextInput.scss'
-import { useState } from 'react'
+import { Button, TextField } from '@mui/material'
 
 export interface ILedTextInput {
   className?:string,
@@ -12,8 +11,8 @@ export interface ILedTextInput {
 
 const LedTextInput = (props:ILedTextInput)=>{
   const encoder = new TextEncoder()
-  const [text,setText] = useState(new Uint8Array())
-  const [error,setError] = useState(false)
+  const [text,setText] = React.useState(new Uint8Array())
+  const [error,setError] = React.useState(false)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(encoder.encode(event.target.value))
     setError(text.byteLength>20)

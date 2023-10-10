@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import './pinValueInput.scss'
-import { useState } from 'react'
-import { VolumeUp } from '@mui/icons-material'
+import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { IPinState } from '../PinsConfig/PinsConfig'
 
 interface IInputProps {
@@ -72,8 +70,8 @@ export interface IPinValuesInput {
 }
 
 const PinValuesInput = (props:IPinValuesInput)=>{
-  const [pinValue,setPinValue] = useState(0)
-  const [activePin,setActivePin] = useState('')
+  const [pinValue,setPinValue] = React.useState(0)
+  const [activePin,setActivePin] = React.useState('')
   const handlePinChange = (event: SelectChangeEvent) => {
     setActivePin(event.target.value as string)
     console.debug(props.pinConfig[activePin])
@@ -99,7 +97,7 @@ const PinValuesInput = (props:IPinValuesInput)=>{
     <div className={`${props.className?props.className:''} pin-value-input`}>
       {
         // show only if some output pins are configured
-        hasPins?<div className='pin-value-input-selection'>
+        hasPins?<div className='pin-value-input__selection'>
           <FormControl size="small">
             <InputLabel id="pin-select-label">Pin</InputLabel>
             <Select
@@ -122,7 +120,7 @@ const PinValuesInput = (props:IPinValuesInput)=>{
           }
         </div>:<Typography>No output pins configured</Typography>
       }
-      <div className='pin-value-input-btn-wrapper'>
+      <div className='pin-value-input__btn-wrapper'>
         <Button 
           size="small" 
           variant='outlined' 

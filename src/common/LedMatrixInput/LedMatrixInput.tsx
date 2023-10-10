@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Button, Checkbox, TextField } from '@mui/material'
 import './ledMatrixInput.scss'
-import { useState } from 'react'
+import { Button, Checkbox } from '@mui/material'
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
 import CropSquareRoundedIcon from '@mui/icons-material/CropSquareRounded'
 
@@ -15,7 +14,7 @@ interface ILedCellProps {
 }
 
 const LedCell = (props:ILedCellProps)=>{
-  const [checked,setChecked] = useState(props.checked)
+  const [checked,setChecked] = React.useState(props.checked)
   const handleChecked = (e:React.ChangeEvent<HTMLInputElement>)=> {
     setChecked(e.target.checked)
     props.onChange(props.row,props.col,e.target.checked)
@@ -34,7 +33,7 @@ export interface ILedMatrixInputProps {
 const LedMatrixInput = (props:ILedMatrixInputProps)=>{
   const rowCount = 5
   const colCount = 5
-  const [ledStateArray,setLedStateArray] = useState(new Uint8Array(rowCount))
+  const [ledStateArray,setLedStateArray] = React.useState(new Uint8Array(rowCount))
   const handleLedStateChange = (rowIndex:number,colIndex:number,state:boolean)=>{
     const newLedState = ledStateArray.map((col,i)=>{
       if(i===rowIndex){
@@ -53,7 +52,7 @@ const LedMatrixInput = (props:ILedMatrixInputProps)=>{
   }
   return(
     <div className={`${props.className?props.className:''} led-matrix-input`}>
-      <div className='led-matrix'>
+      <div className='led-matrix-input__matrix'>
         {[...Array(rowCount)].map((_x,row:number)=>
           [...Array(colCount)].map((_y,col:number)=><LedCell 
             disabled={!props.isConnected}

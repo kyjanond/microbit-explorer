@@ -9,13 +9,13 @@
   &--hidden {
     visibility: hidden;
   }
-  &-content {
+  &__content {
     font-size:x-small;
     > a {
       color: black;
     }
-    &-hidden{
-      display:none;
-    }
+  }
+  &__hidden-content{
+    display:none;
   }
 }

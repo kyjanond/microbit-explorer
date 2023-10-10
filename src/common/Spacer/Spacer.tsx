@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Typography } from '@mui/material'
 import './spacer.scss'
+import { Typography } from '@mui/material'
 
 export interface ISpacerProps {
   className?:string

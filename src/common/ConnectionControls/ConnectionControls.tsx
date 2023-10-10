@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
+import './connectionControls.scss'
 import { Button } from '@mui/material'
 import BluetoothIcon from '@mui/icons-material/Bluetooth'
 import BluetoothDisabledIcon from '@mui/icons-material/BluetoothDisabled'
-import './connectionControls.scss'
+
 
 export interface IConnectionControls {
   className?:string,

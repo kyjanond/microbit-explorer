@@ -1,16 +1,12 @@
 .led-matrix-input {
-  
-}
-.led-matrix {
-  display: grid;
-  grid-template: repeat(5, 20px ) / repeat(5, 20px );
-  padding-bottom: 8px;
+  &__matrix {
+    display: grid;
+    grid-template: repeat(5, 20px ) / repeat(5, 20px );
+    padding-bottom: 8px;
+  }
 }
 .led-cell {
   &.MuiButtonBase-root {
     padding: 0;
-  }
-  > .PrivateSwitchBase-input {
-
   }
 }

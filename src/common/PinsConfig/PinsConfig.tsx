@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
-import { Button, ToggleButton, ToggleButtonGroup } from '@mui/material'
 import './pinsConfig.scss'
-import { useState } from 'react'
+import { Button, ToggleButton, ToggleButtonGroup } from '@mui/material'
 import ControlsSection from '../ControlsSection/ControlsSection'
 
 export interface IPinState {
@@ -64,8 +63,8 @@ interface INewPinState extends IPinState {
 }
 
 const PinsConfig = (props:IPinsSettingProps)=>{
-  const [changed,setChanged] = useState(false)
-  const [newPinStates,setNewPinStates] = useState({} as {[key:number]:INewPinState})
+  const [changed,setChanged] = React.useState(false)
+  const [newPinStates,setNewPinStates] = React.useState({} as {[key:number]:INewPinState})
   React.useEffect(()=>{
     const pinStates = {} as typeof newPinStates
     Object.entries(props.pinStates).forEach(([k,v])=>{

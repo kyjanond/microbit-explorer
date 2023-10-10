@@ -13,12 +13,13 @@
   
 }
 
-.pin-value-input-selection {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-}
-
-.pin-value-input-btn-wrapper {
-  margin-top: 8px;
+.pin-value-input {
+  &__selection {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+  &__btn-wrapper {
+    margin-top: 8px;
+  }
 }

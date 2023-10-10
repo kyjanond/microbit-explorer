@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { Button, Typography, Collapse } from '@mui/material'
 import * as React from 'react'
 import './controlsSection.scss'
+import { Button, Typography, Collapse } from '@mui/material'
 
 export interface IControlsSection {
   className?:string
