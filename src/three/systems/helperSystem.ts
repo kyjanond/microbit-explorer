@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { SceneManager } from '../sceneFactory'
-import { ACC_HELPER_NAME, AXIS_HELPER_NAME, MAG_HELPER_NAME, MICROBIT_MODEL_NAME } from '../../app/constants'
+import { ACC_HELPER_NAME, AXIS_HELPER_NAME, MAG_HELPER_NAME, MB_AXIS_HELPER_NAME, MICROBIT_MODEL_NAME } from '../../app/constants'
 import store from '../../app/store'
 import { Vec3, floatingAvgVector, observeStore } from '../../app/utilities'
 
@@ -55,41 +55,26 @@ export const helperSystem:ThreeSystem<SceneManager> = (sceneManager,_deltaTime)=
     axisHelper.position.copy(axesPosition)
   }
   const microbitModel = sceneManager.scene.getObjectByName(MICROBIT_MODEL_NAME)
-  const zVec = new THREE.Vector3(0,0,1)
+  const mbAxisHelper = sceneManager.scene.getObjectByName(MB_AXIS_HELPER_NAME)
+  if (microbitModel !== undefined && mbAxisHelper !== undefined) {
+    mbAxisHelper.rotation.copy(microbitModel.rotation)
+  }
 
   const avgAccData = floatingAvgVector(accData,accDataArray,15)
   const accVec = new THREE.Vector3(avgAccData.x,avgAccData.y,avgAccData.z)
-  const accVecLocal = microbitModel?.localToWorld(accVec.clone()) ?? accVec.clone()
-  const accHelper = sceneManager.scene.getObjectByName(ACC_HELPER_NAME) as THREE.Line
+  const accHelper = sceneManager.scene.getObjectByName(ACC_HELPER_NAME) as THREE.ArrowHelper
   if (accHelper !== undefined) {
-    const angle = accVecLocal.angleTo(zVec)
-    const axis = new THREE.Vector3().crossVectors(zVec,accVecLocal)
-    axis.normalize()
-    accHelper.setRotationFromAxisAngle(axis,angle)
-  }
-
-  const accHelperEnd = sceneManager.scene.getObjectByName(ACC_HELPER_NAME + '_END') as THREE.Mesh
-  if (accHelperEnd !== undefined) {
     const accHelperEndPos = microbitModel?.localToWorld(accVec.clone()) ?? accVec.clone()
-    accHelperEndPos.normalize().multiplyScalar(50)
-    accHelperEnd.position.copy(accHelperEndPos)
+    accHelperEndPos.normalize()
+    accHelper.setDirection(accHelperEndPos)
   }
 
   const avgMagData = floatingAvgVector(magData,magDataArray,15)
   const magVec = new THREE.Vector3(avgMagData.x,avgMagData.y,avgMagData.z)
-  const magVecLocal = microbitModel?.localToWorld(magVec.clone()) ?? magVec.clone()
-  const magHelper = sceneManager.scene.getObjectByName(MAG_HELPER_NAME) as THREE.Line
+  const magHelper = sceneManager.scene.getObjectByName(MAG_HELPER_NAME) as THREE.ArrowHelper
   if (magHelper !== undefined) {
-    const angle = magVecLocal.angleTo(zVec)
-    const axis = new THREE.Vector3().crossVectors(zVec,magVecLocal)
-    axis.normalize()
-    magHelper.setRotationFromAxisAngle(axis,angle)
-  }
-
-  const magHelperEnd = sceneManager.scene.getObjectByName(MAG_HELPER_NAME + '_END') as THREE.Mesh
-  if (magHelperEnd !== undefined) {
-    const magHelperEndPos = magVecLocal.clone()
-    magHelperEndPos.normalize().multiplyScalar(50)
-    magHelperEnd.position.copy(magHelperEndPos)
+    const magHelperEndPos = microbitModel?.localToWorld(magVec.clone()) ?? magVec.clone()
+    magHelperEndPos.normalize()
+    magHelper.setDirection(magHelperEndPos)
   }
 }

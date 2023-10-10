@@ -1,9 +1,29 @@
-.about__btn {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+.about {
+  &__btn{
+    &.MuiButtonBase-root {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+    }
+  }
+  &__content {
+    padding: 16px;
+    max-width: 300px;
+  }
+  &__row {
+    display: flex;
+    align-items: center;
+  }
+  &__row-icon {
+    padding-right: 8px;
+  }
+  &__how-to {
+    padding-right: 8px;
+    padding-inline-start: 24px;
+  }
 }
 
-.about__content {
-  padding: 16px;
-}
+
+
+
+

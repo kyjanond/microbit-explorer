@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import * as React from 'react'
 import './about.scss'
-import IconButton from '@mui/material/IconButton'
+import { IconButton, Popover, Typography } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
-import { Popover, Typography } from '@mui/material'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import { ACC_HELPER_COLOR, MAG_HELPER_COLOR } from '../../app/constants'
 
 export interface IAboutProps {
   className?:string,
@@ -39,13 +41,38 @@ const About = (props:IAboutProps)=>{
         open={open}   
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
+        slotProps={{paper:{variant:'outlined'}}}
       >
         <div className='about__content'>
-          <Typography>
-            This is about
+          <Typography variant='h6'>
+            How to
           </Typography>
-          <Typography>
+          <Typography component={'ul'} className='about__how-to'>
+            <li>Use your mouse or touch to move and rotate the scene.</li>
+            <li>Connection status and controls are in the top left corner.</li>
+            <li>Pins need to be configured before the values can be set or read.</li>
+          </Typography>
+          <Typography variant='h6'>
             Legend
+          </Typography>
+          <Typography className='about__row' variant='caption'>
+            <HorizontalRuleIcon className={'about__row-icon'} sx={{color:'#ff0000'}}/> X Axis
+          </Typography>
+          <Typography className='about__row' variant='caption'>
+            <HorizontalRuleIcon className={'about__row-icon'} sx={{color:'#00ff00'}}/> Y Axis
+          </Typography>
+          <Typography className='about__row' variant='caption'>
+            <HorizontalRuleIcon className={'about__row-icon'} sx={{color:'#0000ff'}}/> Z Axis
+          </Typography>
+          <Typography className='about__row' variant='caption'>
+            <ArrowRightAltIcon className={'about__row-icon'} sx={{color:MAG_HELPER_COLOR}}/> Magnetometer vector
+          </Typography>
+          <Typography className='about__row' variant='caption'>
+            <ArrowRightAltIcon className={'about__row-icon'} sx={{color:ACC_HELPER_COLOR}}/> Accelerometer vector
+          </Typography>
+          <br/>
+          <Typography variant='caption'>
+            Created for educational purposes. No guarantees.
           </Typography>
         </div>
       </Popover>

@@ -4,19 +4,27 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { glbAssetLoaderSingleton } from './loaders/geometryLoader'
-import { ACC_HELPER_NAME, AXIS_HELPER_NAME, GEOMETRY_ASSETS, GRID_HELPER_NAME, MAG_HELPER_NAME, TEXTURE_ASSETS } from '../app/constants'
+import { ACC_HELPER_COLOR, ACC_HELPER_NAME, AXIS_HELPER_NAME, GEOMETRY_ASSETS, GRID_HELPER_NAME, MAG_HELPER_COLOR, MAG_HELPER_NAME, MB_AXIS_HELPER_NAME, TEXTURE_ASSETS } from '../app/constants'
+import { changeOpacity } from './threeUtils'
 
 THREE.Object3D.DEFAULT_UP = new THREE.Vector3(0,0,1)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createHelpers = (scene:THREE.Scene) => {
-  const magColor = 0xff0000
-  const accColor = 0x0000ff
-  const defaultOrigin = new THREE.Vector3(0,0,50)
+  const defaultHelperEnd = new THREE.Vector3(0,0,50)
+  const helperLength = 50
+
+  // axis helper
   const axisHelper = new THREE.AxesHelper( 0.001 )
   axisHelper.name = AXIS_HELPER_NAME
   scene.add( axisHelper )
 
+  // axis helper
+  const mbAxisHelper = new THREE.AxesHelper( 30 )
+  mbAxisHelper.name = MB_AXIS_HELPER_NAME
+  scene.add( mbAxisHelper )
+
+  //grid helper
   const gridHelper = new THREE.GridHelper( 
     100, 
     10,
@@ -27,51 +35,29 @@ const createHelpers = (scene:THREE.Scene) => {
   gridHelper.name = GRID_HELPER_NAME
   scene.add( gridHelper )
   
-  const accHelperGeometry = new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(),
-    new THREE.Vector3(0,0,50)
-  ])
-  const accHelper = new THREE.Line( 
-    accHelperGeometry, 
-    new THREE.LineBasicMaterial({
-      color: accColor
-    })
+  //acc helper
+  const accHelper = new THREE.ArrowHelper( 
+    defaultHelperEnd.clone(), 
+    new THREE.Vector3(), 
+    helperLength, 
+    ACC_HELPER_COLOR,
+    helperLength*0.1,
+    helperLength*0.04
   )
   accHelper.name = ACC_HELPER_NAME
   scene.add( accHelper )
-  const accHelperEndGeometry = new THREE.SphereGeometry(1)
-  const accHelperEndMat = new THREE.MeshBasicMaterial({
-    color: accColor
-  })
-  const accHelperEnd = new THREE.Mesh(accHelperEndGeometry,accHelperEndMat)
-  accHelperEnd.name = ACC_HELPER_NAME + '_END'
-  scene.add( accHelperEnd )
-
-  const magHelperGeometry = new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(),
-    new THREE.Vector3(0,0,50)
-  ])
-  const magHelperVector = new THREE.Line( 
-    magHelperGeometry, 
-    new THREE.LineBasicMaterial({
-      color: magColor
-    })
+  
+  //mag helper
+  const magHelper = new THREE.ArrowHelper( 
+    defaultHelperEnd.clone(), 
+    new THREE.Vector3(), 
+    helperLength, 
+    MAG_HELPER_COLOR,
+    helperLength*0.1,
+    helperLength*0.04
   )
-  magHelperVector.name = MAG_HELPER_NAME
-  scene.add( magHelperVector )
-  const magHelperEndGeometry = new THREE.SphereGeometry(1)
-  const magHelperEndMat = new THREE.MeshBasicMaterial({
-    color: magColor
-  })
-  const magHelperEnd = new THREE.Mesh(magHelperEndGeometry,magHelperEndMat)
-  // const magHelperEnd = new THREE.ArrowHelper( 
-  //   magHelperVector., 
-  //   new THREE.Vector3(0,0,50), 
-  //   length, 
-  //   magColor 
-  // )
-  magHelperEnd.name = MAG_HELPER_NAME + '_END'
-  scene.add( magHelperEnd )
+  magHelper.name = MAG_HELPER_NAME
+  scene.add( magHelper )
 }
 
 export const loadAssets = async (sceneManager:SceneManager)=>{
@@ -84,7 +70,10 @@ export const loadAssets = async (sceneManager:SceneManager)=>{
   models.forEach(model=>{
     console.debug(`Adding model ${model.scene.name} ${model.scene.uuid}`)
     model.scene.visible = true
+    // change opacity
+    changeOpacity(model.scene,0.75)
     sceneManager.scene.add(model.scene)
+    // add animations
     if (model.animations.length !== 0){
       animationClips[model.scene.uuid] = model.animations
       // const clipAction = mixer.clipAction(animation)
@@ -118,9 +107,10 @@ const sceneManagerFactory = (container: HTMLElement)=>{
     0.01, 
     1000 
   )
-  camera.position.x = 0
-  camera.position.y = 0
-  camera.position.z = 150
+  camera.position.x = 75
+  camera.position.y = -75
+  camera.position.z = 75
+  camera.lookAt(new THREE.Vector3())
   // CONTROLS
   const controls = new OrbitControls(
     camera,
