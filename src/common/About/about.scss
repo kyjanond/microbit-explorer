@@ -8,7 +8,10 @@
   }
   &__content {
     padding: 16px;
-    max-width: 300px;
+    max-width: 350px;
+    > p > a {
+      color: black;
+    }
   }
   &__row {
     display: flex;
@@ -20,6 +23,9 @@
   &__how-to {
     padding-right: 8px;
     padding-inline-start: 24px;
+    > li > a {
+      color: black;
+    }
   }
 }
 

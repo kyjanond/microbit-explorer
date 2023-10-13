@@ -46,14 +46,6 @@ const About = (props:IAboutProps)=>{
       >
         <div className='about__content'>
           <Typography variant='h6'>
-            How to
-          </Typography>
-          <Typography component={'ul'} className='about__how-to'>
-            <li>Use your mouse or touch to move and rotate the scene.</li>
-            <li>Connection status and controls are in the top left corner.</li>
-            <li>Pins need to be configured before the values can be set or read.</li>
-          </Typography>
-          <Typography variant='h6'>
             Legend
           </Typography>
           <Typography className='about__row' variant='caption'>
@@ -70,6 +62,27 @@ const About = (props:IAboutProps)=>{
           </Typography>
           <Typography className='about__row' variant='caption'>
             <ArrowRightAltIcon className={'about__row-icon'} sx={{color:ACC_HELPER_COLOR}}/> Accelerometer vector
+          </Typography>
+          <Typography variant='h6'>
+            How to use the Explorer
+          </Typography>
+          <Typography component={'ul'} className='about__how-to'>
+            <li>Use your mouse or touch to move and rotate the scene.</li>
+            <li>Connection status and controls are in the top left corner.</li>
+            <li>Pins need to be configured before the values can be set or read.</li>
+          </Typography>
+          <Typography variant='h6'>
+            The micro:bit code
+          </Typography>
+          <Typography component={'p'} className='about__paragraph'>
+            You need a special project running on the micro:bit to be able to use the Explorer. You can download the project .hex file from&nbsp; 
+            <a href="https://github.com/kyjanond/microbit-explorer/blob/main/doc/microbit/microbit-basic_ble.hex" target='_blank' rel="noreferrer noopener">here</a>
+            &nbsp;OR you can use the python code from&nbsp; 
+            <a href="https://github.com/kyjanond/microbit-explorer/blob/main/doc/microbit/microbit-basic_ble.py" target='_blank' rel="noreferrer noopener">here</a>.
+            <br/>
+            The microbit can be programed from the&nbsp;
+            <a href="https://makecode.microbit.org/" target='_blank' rel="noreferrer noopener">MakeCode</a>
+            &nbsp;interface.
           </Typography>
           <br/>
           <Typography variant='caption'>
