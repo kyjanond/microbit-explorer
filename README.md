@@ -5,7 +5,20 @@ Explorer BBC micro:bit sensor data and inputs over BLE
 See the Explorer online: https://microbit-explorer.ok-y.xyz
 
 ![alt text](./doc/assets/microbit-explorer_ui.png "Microbit Explorer UI")
+## Quickstart
+### Micro:bit Explorer
+to run locally
+```
+yarn install
+yarn dev
+```
+### micro:bit
+to prepare the micro:bit follow the following steps:
+1. Open [MakeCode](https://makecode.microbit.org/) 
+2. Import a project from the .hex found in `doc/microbit/microbit-basic_ble.hex` *OR* create a new project and copy and paste the python code in `doc/microbit/microbit-basic_ble.py` to the MakeCode python editor.
+3. Connect micro:bit with USB cable and download the project to the micro:bit
 
+For more info about how to program and work with the micro:bit see one of the many MakeCode tutorials on the [MakeCode](https://makecode.microbit.org/).
 ## Features
 ### Show device info
 :ballot_box_with_check: BLE ID  
@@ -20,20 +33,13 @@ Visually shows device tilt (based on the accelerometer data) and accelerometer a
 :ballot_box_with_check: button state  
 :ballot_box_with_check: pin state
 ### Send data to micro:bit
-![alt text](./doc/assets/microbit-explorer_smile.gif "Microbit Explorer Sensor Data")
+![alt text](./doc/assets/microbit-explorer_smile.gif "Microbit Explorer Sensor Data")  
 :ballot_box_with_check: LED array text  
 :ballot_box_with_check: LED array  
 :ballot_box_with_check: pin digital and analog output values (for configured pins)
 ### Set GPIO type
 :ballot_box_with_check: input/output  
 :ballot_box_with_check: digital/analog
-
-
-## Quickstart
-```
-yarn install
-yarn dev
-```
 ## Known Issues
 :x: not every browser supports BLE (see [browser compaibility](https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API#browser_compatibility))
 
