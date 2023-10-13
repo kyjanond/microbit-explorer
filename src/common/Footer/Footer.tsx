@@ -15,7 +15,8 @@ const Footer = (props: IFooterProps) => {
       <Typography className={'footer__content'} variant="caption" color="inherit">
         {`© ${year} ${metadata.copyright} | `}
         <a href='https://opensource.org/license/mit/' target='_blank' rel="noopener noreferrer">MIT License</a>
-        {` | ver: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`}
+        {` | ver: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag} | `}
+        <a href="https://github.com/kyjanond/microbit-explorer">github</a>
       </Typography>
       <span className='footer__hidden-content'>
         {`${metadata.datetime}`}
