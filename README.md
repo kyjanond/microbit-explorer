@@ -4,7 +4,7 @@ Explorer BBC micro:bit sensor data and inputs over BLE
 
 See the Explorer online: https://microbit-explorer.ok-y.xyz
 
-![alt text](./doc/assets/microbit-explorer_ui.png "Microbit Explorer UI")
+![alt text](doc/assets/microbit-explorer_ui.png "Microbit Explorer UI")
 
 ## Features
 ### Show device info
@@ -12,7 +12,7 @@ See the Explorer online: https://microbit-explorer.ok-y.xyz
 :ballot_box_with_check: name  
 :ballot_box_with_check: model
 ### Visual feedback
-![alt text](./doc/assets/microbit-explorer_tilt.gif "Microbit Explorer Sensor Data")  
+![alt text](doc/assets/microbit-explorer_tilt.gif "Microbit Explorer Sensor Data")  
 Visually shows device tilt (based on the accelerometer data) and accelerometer and magnetometer vectors
 ### Sensor value stream
 :ballot_box_with_check: accelerometer and magnetometer  
@@ -20,7 +20,7 @@ Visually shows device tilt (based on the accelerometer data) and accelerometer a
 :ballot_box_with_check: button state  
 :ballot_box_with_check: pin state
 ### Send data to micro:bit
-![alt text](./doc/assets/microbit-explorer_smile.gif "Microbit Explorer Sensor Data")
+![alt text](doc/assets/microbit-explorer_smile.gif "Microbit Explorer Sensor Data")
 :ballot_box_with_check: LED array text  
 :ballot_box_with_check: LED array  
 :ballot_box_with_check: pin digital and analog output values (for configured pins)
