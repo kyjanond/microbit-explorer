@@ -107,9 +107,9 @@ const sceneManagerFactory = (container: HTMLElement)=>{
     0.01, 
     1000 
   )
-  camera.position.x = 75
-  camera.position.y = -75
-  camera.position.z = 75
+  camera.position.x = 90
+  camera.position.y = -90
+  camera.position.z = 90
   camera.lookAt(new THREE.Vector3())
   // CONTROLS
   const controls = new OrbitControls(

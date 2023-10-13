@@ -10,6 +10,6 @@ metadata.buildRevision = metadata.buildRevision + 1
 metadata.datetime = new Date().toISOString()
 writeFileSync('src/metadata.json', JSON.stringify(metadata, null, 2))
 console.debug(`Current build number: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`)
-pkgJson.version = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision}-${metadata.buildTag}`
+pkgJson.version = `${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision}${metadata.buildTag?'-'+metadata.buildTag:''}`
 writeFileSync('./package.json', JSON.stringify(pkgJson, null, 2))
 console.debug('package.json updated')

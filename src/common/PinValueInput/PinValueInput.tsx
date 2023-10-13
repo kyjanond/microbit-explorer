@@ -10,7 +10,7 @@ interface IInputProps {
 }
 
 const AnalogInput = (props:IInputProps)=>{
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  const handleSliderChange = (_event: Event, newValue: number | number[]) => {
     props.onChange(newValue as number)
   }
 
@@ -42,7 +42,7 @@ const AnalogInput = (props:IInputProps)=>{
 }
 
 const DigitalInput = (props:IInputProps)=>{
-  const handleChange = (event: React.MouseEvent<HTMLElement>, newValue: number) => {
+  const handleChange = (_event: React.MouseEvent<HTMLElement>, newValue: number) => {
     props.onChange(newValue)
   }
 

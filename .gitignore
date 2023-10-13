@@ -34,3 +34,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# python
+.mypy_cache
+
+# dev
+dev

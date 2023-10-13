@@ -5,7 +5,7 @@ import PinsConfig, { IPinState } from '../../common/PinsConfig/PinsConfig'
 import { readCharacteristic, writeCharacteristic } from '../../app/ble'
 import { pinService } from '../../app/microbitBleServices'
 import { selectPinConfigFiltered, setPinConfigAll } from './deviceConfigSlice'
-import store, { RootState } from '../../app/store'
+import store from '../../app/store'
 
 
 const writePinConfig = async (pinIOMask:ArrayBuffer,pinADMask:ArrayBuffer)=>{

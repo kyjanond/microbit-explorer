@@ -117,8 +117,8 @@ const PinsConfig = (props:IPinsSettingProps)=>{
           number: pinNr,
           io: 'undefined',
           ad: 'undefined',
-          onIOChange: (e,newValue)=>handleChange(pinNr,newValue==='input',undefined),
-          onADChange: (e,newValue)=>handleChange(pinNr,undefined,newValue==='analog')
+          onIOChange: (_e,newValue)=>handleChange(pinNr,newValue==='input',undefined),
+          onADChange: (_e,newValue)=>handleChange(pinNr,undefined,newValue==='analog')
         }
         if (!v.isUndefined) {
           pinProps.label+=`${v.isAnalog?'A':'D'}${v.isInput?'I':'O'}${v.changed?' changed':''}`

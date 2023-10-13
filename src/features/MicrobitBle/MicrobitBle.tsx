@@ -15,7 +15,11 @@ import DeviceConfig from '../DeviceConfig/DeviceConfig'
 import { PIN_FILTER } from '../../app/constants'
 import { setModelNr, setFwRev, setDeviceName, setDeviceId } from '../DeviceInfo/deviceInfoSlice'
 import InputControl from '../InputControl/InputControl'
+import { AlertDialogContext } from '../../common/AlertDialog/AlertDialogContext'
 
+const isCompatible = navigator.bluetooth !== undefined
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const debugNotifyCb = (e:Event)=>{
   const characteristic = e.target as BluetoothRemoteGATTCharacteristic
   const byteArr = []
@@ -88,12 +92,12 @@ const pinCb = (e:Event)=>{
   }
 }
 
-const modelNrCb = (uuid:string, data:DataView)=>{
+const modelNrCb = (_uuid:string, data:DataView)=>{
   const value = new TextDecoder().decode(data)
   store.dispatch(setModelNr(value))
 }
 
-const fwRevCb = (uuid:string, data:DataView)=>{
+const fwRevCb = (_uuid:string, data:DataView)=>{
   const value = new TextDecoder().decode(data)
   store.dispatch(setFwRev(value))
 }
@@ -125,25 +129,40 @@ const subscriberFactory = ()=>{
 }
 
 const MicrobitBle = ()=>{
+  const spaceLength = 42
   const dispatch = useDispatch()
   const subscribers = subscriberFactory()
   const [connected,setConnected] = useState(false)
-  const spaceLength = 42
+  const { handleAlertDialog } = React.useContext(AlertDialogContext)
+
   const connectCb = (id:string,name:string)=>{
     setConnected(true)
     dispatch(setDeviceName(name))
     dispatch(setDeviceId(id))
   }
   const disconnectCb = (e:Event)=>{
+    console.debug(e)
     setConnected(false)
   }
   const handleConnectClick = ()=>connectDevice(
     Object.values(subscribers),
     disconnectCb,
     connectCb
-  )
+  ).catch((e:Error)=>{
+    handleAlertDialog(true,{
+      severenity: 'error',
+      message: e.message
+    })
+  })
   const handleDisconnectClick = ()=>{
     disconnectDevice()
+  }
+
+  if (!isCompatible){
+    handleAlertDialog(true,{
+      severenity: 'error',
+      message: 'Your browser is unfortunatelly not supported. Try new version of MS Edge or Google Chrome.'
+    })
   }
   
   return(

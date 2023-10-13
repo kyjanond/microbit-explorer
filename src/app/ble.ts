@@ -64,7 +64,7 @@ export const readCharacteristic = (
       console.debug(`value read ${byteArr}`)
       return value
     })
-    .catch(error=>{
+    .catch((error:Error)=>{
       throw error
     })
 })
@@ -91,7 +91,7 @@ export const writeCharacteristic = (
       const byteArr = dataViewToUint8Array(new DataView(value))
       console.debug(`value written ${byteArr}`)
     })
-    .catch(error=>{
+    .catch((error:Error)=>{
       throw error
     })
 })
@@ -100,86 +100,92 @@ export const connectDevice = (
   subscribers:IMicrobitService<string>[], 
   disconnectedCb:(event:Event)=>void,
   connectedCb:(id:string, name:string)=>void
-)=>mutex.runExclusive(()=>{
+)=>{
+  // disconnect server
   disconnectDevice()
-  subscribers.forEach(x=>{
-    options.optionalServices?.push(x.uuid)
+  return mutex.runExclusive(async ()=>{
+    subscribers.forEach(x=>{
+      options.optionalServices?.push(x.uuid)
+    })
+    return navigator.bluetooth
+      .requestDevice(options)
+      .then(async (device:BluetoothDevice) => {
+        // connect device
+        device.addEventListener('gattserverdisconnected', disconnectedCb)
+        if (!device.gatt){
+          throw new Error('Gatt not defined')
+        }
+        if (device.gatt.connected){
+          console.error('still connected')
+        }
+        return device.gatt.connect()
+      })
+      .then((server:BluetoothRemoteGATTServer) => {
+        // get services
+        connectedGATTServer.server = server
+        const promises = subscribers.map(x=>server.getPrimaryService(x.uuid))
+        return Promise.all(promises)
+      })
+      .then((services:BluetoothRemoteGATTService[]) => {
+        // get characteristics
+        const promises:Promise<BluetoothRemoteGATTCharacteristic>[] = []
+        services.forEach(service=>{
+          const sub = subscribers.find(x=>x.uuid===service.uuid)
+          if (sub){
+            promises.push(...Object.values(sub.characteristics).map(x=>service.getCharacteristic(x.uuid)))
+          }
+        })
+        return Promise.all(promises)
+      })
+      .then(async (characteristics) => {
+        // start notification and read values
+        for (let index = 0; index < characteristics.length; index++) {
+          const c = characteristics[index]
+          const srvSub = subscribers.find(x=>x.uuid === c.service.uuid)
+          const charSub = Object.values(srvSub?.characteristics ?? []).find(x=>x.uuid===c.uuid)
+          if (!charSub){
+            return
+          }
+          // start notification if characteristic has a cb 
+          if ((charSub.props & CharProps.Notify) === CharProps.Notify && charSub.notifyCb){
+            c.addEventListener(
+              'characteristicvaluechanged',
+              charSub.notifyCb
+            )
+            try {
+              await c.startNotifications()
+            } catch (error) {
+              console.error(charSub.name,error)
+            }
+          } 
+          // read values if characteristic has a cb 
+          if((charSub.props & CharProps.Read) === CharProps.Read && charSub.readCb){
+            try {
+              const value = await c.readValue()
+              charSub.readCb!(c.uuid, value)
+            } catch (error) {
+              console.error(charSub.name,error)
+            }
+          }
+        }
+        connectedCb(
+          connectedGATTServer.server?.device.id ?? '',
+          connectedGATTServer.server?.device.name ?? ''
+        )
+      })
+      .catch((error:Error) => {
+        throw error
+      })
+    
+  }).catch((error:Error) => {
+    console.info(error)
+    throw error 
   })
-  navigator.bluetooth
-    .requestDevice(options)
-    .then(async (device:BluetoothDevice) => {
-      if (connectedGATTServer !== null){
-        disconnectDevice()
-        await new Promise(r => setTimeout(r, 2000))
-      }
-      device.addEventListener('gattserverdisconnected', disconnectedCb)
-      if (!device.gatt){
-        throw new Error('Gatt not defined')
-      }
-      if (device.gatt.connected){
-        console.error('still connected')
-      }
-      return device.gatt.connect()
-    // Do something with the device.
-    })
-    .then((server:BluetoothRemoteGATTServer) => {
-      connectedGATTServer.server = server
-      const promises = subscribers.map(x=>server.getPrimaryService(x.uuid))
-      return Promise.all(promises)
-    })
-    .then((services:BluetoothRemoteGATTService[]) => {
-      const promises:Promise<BluetoothRemoteGATTCharacteristic>[] = []
-      services.forEach(service=>{
-        const sub = subscribers.find(x=>x.uuid===service.uuid)
-        if (sub){
-          promises.push(...Object.values(sub.characteristics).map(x=>service.getCharacteristic(x.uuid)))
-        }
-      })
-      return Promise.all(promises)
-    })
-    .then((characteristics) => {
-      characteristics.forEach(c=>{
-        const srvSub = subscribers.find(x=>x.uuid === c.service.uuid)
-        const charSub = Object.values(srvSub?.characteristics ?? []).find(x=>x.uuid===c.uuid)
-        if (!charSub){
-          return
-        }
-        // start notification
-        if ((charSub.props & CharProps.Notify) === CharProps.Notify && charSub.notifyCb){
-          c.addEventListener(
-            'characteristicvaluechanged',
-            charSub.notifyCb
-          )
-          c.startNotifications().catch(err=>console.error(charSub.name,err))
-          console.debug(`${srvSub?.name}.${charSub.name} subscribed`)
-        } 
-        if((charSub.props & CharProps.Read) === CharProps.Read && charSub.readCb){
-          c.readValue().then(value=>charSub.readCb!(c.uuid, value))
-        }
-      })
-      connectedCb(
-        connectedGATTServer.server?.device.id ?? '',
-        connectedGATTServer.server?.device.name ?? ''
-      )
-    })
-}).catch((error) => {
-  disconnectDevice()
-  console.error(error)
-})
+}
 
 export const disconnectDevice = ()=>mutex.runExclusive(()=>{
   if (isConnected()){
     connectedGATTServer.server!.disconnect()
     connectedGATTServer.server = null
   }
-  
-  // navigator.bluetooth.requestDevice(options)
-  //   .then((device:BluetoothDevice) => {
-  //     if (!device.gatt){
-  //       throw new Error('Gatt not defined')
-  //     }
-  //     device.gatt.disconnect()
-  //     connectedGATTServer.server = null
-  //   })
-  //   .catch(error => { console.error(error) })
 })

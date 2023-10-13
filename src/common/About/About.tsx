@@ -6,6 +6,7 @@ import InfoIcon from '@mui/icons-material/Info'
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import { ACC_HELPER_COLOR, MAG_HELPER_COLOR } from '../../app/constants'
+import GitHubButton from 'react-github-btn'
 
 export interface IAboutProps {
   className?:string,
@@ -74,6 +75,9 @@ const About = (props:IAboutProps)=>{
           <Typography variant='caption'>
             Created for educational purposes. No guarantees.
           </Typography>
+          <br/>
+          <br/>
+          <GitHubButton href="https://github.com/kyjanond/microbit-explorer">View on Github</GitHubButton>
         </div>
       </Popover>
     </div>

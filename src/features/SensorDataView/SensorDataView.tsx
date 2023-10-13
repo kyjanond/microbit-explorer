@@ -30,7 +30,7 @@ const pinValueToString = (pinState:ReturnType<typeof selectPinValues> ) =>{
 observeStore(
   store,
   (store)=>{return store.deviceConfig.pinsConfig},
-  (state)=>{
+  (_state)=>{
     readCharacteristic(
       pinService.uuid,
       pinService.characteristics.pinData.uuid
