@@ -16,7 +16,7 @@ const Footer = (props: IFooterProps) => {
         {`© ${year} ${metadata.copyright} | `}
         <a href='https://opensource.org/license/mit/' target='_blank' rel="noopener noreferrer">MIT License</a>
         {` | ver: ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag} | `}
-        <a href="https://github.com/kyjanond/microbit-explorer">github</a>
+        <a href={metadata.sourceUrl} target='_blank' rel="noopener noreferrer">github</a>
       </Typography>
       <span className='footer__hidden-content'>
         {`${metadata.datetime}`}

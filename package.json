@@ -1,7 +1,7 @@
 {
   "name": "microbit-explorer",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.6",
   "awsConfig": {
     "distributionID": "E1ETJ5EG0EJEVR",
     "bucketName": "microbit-explorer"
